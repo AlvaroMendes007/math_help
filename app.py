@@ -6,7 +6,6 @@ import base64
 from google.genai import types
 from PIL import Image
 import io
-import streamlit as st
 from google import genai
 import uuid
 

@@ -9,11 +9,7 @@ import io
 from google import genai
 import uuid
 
-st.write("GOOGLE_API_KEY:", st.secrets["GOOGLE_API_KEY"])
-st.write(
-    "Has environment variables been set:",
-    os.environ["GOOGLE_API_KEY"] == st.secrets["GOOGLE_API_KEY"],
-)
+
 # os.environ['GOOGLE_API_KEY'] = userdata.get('GOOGLE_API_KEY')
 GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
 

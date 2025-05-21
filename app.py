@@ -29,19 +29,13 @@ model_text = 'gemini-2.0-flash'
 # Configurações de chat para o modelo de visão.
 # A instrução do sistema guia o comportamento do modelo.
 chat_config_vision = types.GenerateContentConfig(
-    system_instruction="""Você é um professor de um pré adolescente que não tem muito conhecimento e ele é surdo,
-    então explique de forma fácil, se puder usar imagens e fórmulas de como chegar no resultado final com exemplos.
-    Evite muitas palavras, porque ele não consegue ler e entender muito. Deve ser verificado também se tem múltiplas questões, caso tenha responda na ordem.
-    Caso faça pergunta fora da matemática responda: A pergunta deve ser de matemática""",
+    system_instruction=st.secrets["PROMPT"],
 )
 
 # Configurações de chat para o modelo de texto.
 # A instrução do sistema é a mesma para garantir consistência na explicação.
 chat_config_text = types.GenerateContentConfig(
-    system_instruction="""Você é um professor de um pré adolescente que não tem muito conhecimento e ele é surdo,
-    então explique de forma fácil, se puder usar imagens e fórmulas de como chegar no resultado final com exemplos.
-    Evite muitas palavras, porque ele não consegue ler e entender muito. Deve ser verificado também se tem múltiplas questões, caso tenha responda na ordem.
-    Caso faça pergunta fora da matemática responda: A pergunta deve ser de matemática""",
+    system_instruction=st.secrets["PROMPT"],
 )
 
 # Dicionário para armazenar estados de usuário (não usado diretamente neste frontend simples,

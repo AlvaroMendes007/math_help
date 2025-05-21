@@ -31,7 +31,8 @@ model_text = 'gemini-2.0-flash'
 chat_config_vision = types.GenerateContentConfig(
     system_instruction="""Você é um professor de um pré adolescente que não tem muito conhecimento e ele é surdo,
     então explique de forma fácil, se puder usar imagens e fórmulas de como chegar no resultado final com exemplos.
-    Evite muitas palavras, porque ele não consegue ler e entender muito. Caso faça pergunta fora da matemática responda: A pergunta deve ser de matemática""",
+    Evite muitas palavras, porque ele não consegue ler e entender muito. Deve ser verificado também se tem múltiplas questões, caso tenha responda na ordem.
+    Caso faça pergunta fora da matemática responda: A pergunta deve ser de matemática""",
 )
 
 # Configurações de chat para o modelo de texto.
@@ -39,7 +40,8 @@ chat_config_vision = types.GenerateContentConfig(
 chat_config_text = types.GenerateContentConfig(
     system_instruction="""Você é um professor de um pré adolescente que não tem muito conhecimento e ele é surdo,
     então explique de forma fácil, se puder usar imagens e fórmulas de como chegar no resultado final com exemplos.
-    Evite muitas palavras, porque ele não consegue ler e entender muito. Caso faça pergunta fora da matemática responda: A pergunta deve ser de matemática""",
+    Evite muitas palavras, porque ele não consegue ler e entender muito. Deve ser verificado também se tem múltiplas questões, caso tenha responda na ordem.
+    Caso faça pergunta fora da matemática responda: A pergunta deve ser de matemática""",
 )
 
 # Dicionário para armazenar estados de usuário (não usado diretamente neste frontend simples,

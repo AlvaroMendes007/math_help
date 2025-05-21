@@ -30,12 +30,14 @@ model_text = 'gemini-2.0-flash'
 # A instrução do sistema guia o comportamento do modelo.
 chat_config_vision = types.GenerateContentConfig(
     system_instruction=st.secrets["PROMPT"],
+    temperature=0.8, 
 )
 
 # Configurações de chat para o modelo de texto.
 # A instrução do sistema é a mesma para garantir consistência na explicação.
 chat_config_text = types.GenerateContentConfig(
     system_instruction=st.secrets["PROMPT"],
+    temperature=0.8,
 )
 
 # Dicionário para armazenar estados de usuário (não usado diretamente neste frontend simples,

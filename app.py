@@ -23,26 +23,14 @@ if not GOOGLE_API_KEY:
 client = genai.Client(api_key=GOOGLE_API_KEY)
 
 # Define os modelos a serem usados para visão (imagem) e texto.
-model_vision = 'gemini-2.0-flash'
-model_text = 'gemini-2.0-flash'
+model_ia = 'gemini-2.0-flash'
 
 # Configurações de chat para o modelo de visão.
 # A instrução do sistema guia o comportamento do modelo.
-chat_config_vision = types.GenerateContentConfig(
+chat_config = types.GenerateContentConfig(
     system_instruction=st.secrets["PROMPT"],
     temperature=0.8, 
 )
-
-# Configurações de chat para o modelo de texto.
-# A instrução do sistema é a mesma para garantir consistência na explicação.
-chat_config_text = types.GenerateContentConfig(
-    system_instruction=st.secrets["PROMPT"],
-    temperature=0.8,
-)
-
-# Dicionário para armazenar estados de usuário (não usado diretamente neste frontend simples,
-# mas mantido para compatibilidade com o código original).
-user_states = {}
 
 def is_base64_encoded_image(s):
     """
@@ -89,32 +77,21 @@ def get_math_expression(input_data):
 
         # Faz o upload do arquivo para o serviço de arquivos do Google GenAI.
         my_file = client.files.upload(file=temp_filename)
-        # Remove o arquivo temporário após o upload.
         os.remove(temp_filename)
 
-        # Prepara o conteúdo para o modelo de visão: o arquivo da imagem e o prompt.
         contents = [my_file, prompt_image]
-        # Gera o conteúdo usando o modelo de visão com a configuração de chat.
-        response = client.models.generate_content(
-            model=model_vision,
-            contents=contents,
-            config=chat_config_vision # Usando generation_config para as configurações de chat
-        )
-        response_text = response.text.strip()
+        
     else:
         st.info("Entrada identificada como texto. Identificando expressão...")
-        # Define o prompt para identificar a expressão matemática no texto.
         prompt_text = f"Identifique a principal expressão matemática em: '{input_data}'. Apenas a expressão matemática."
-        # Prepara o conteúdo para o modelo de texto: apenas o prompt.
         contents = [prompt_text]
-        # Gera o conteúdo usando o modelo de texto com a configuração de chat.
-        response = client.models.generate_content(
-            model=model_text,
-            contents=contents,
-            config=chat_config_text # Usando generation_config para as configurações de chat
-        )
-        response_text = response.text.strip()
 
+    response = client.models.generate_content(
+        model=model_ia,
+        contents=contents,
+        config=chat_config # Usando generation_config para as configurações de chat
+    )
+    response_text = response.text.strip()
     return response_text
 
 def generate_example(expression):
@@ -123,7 +100,7 @@ def generate_example(expression):
     """
     st.info("Gerando exemplo da expressão...")
     prompt = f"Gere um exemplo muito simples e visualmente intuitivo para uma criança que não sabe ler entender a seguinte expressão matemática: '{expression}'. Use o mínimo de texto possível, focando em símbolos e representações visuais. Se for uma operação, mostre a operação acontecendo com objetos simples. Se for um conceito (como potência), mostre uma representação básica. A resposta deve ser concisa e adequada para uma criança."
-    response = client.models.generate_content(model=model_text, contents=[prompt], config=chat_config_text)
+    response = client.models.generate_content(model=model_ia, contents=[prompt], config=chat_config)
     return response.text.strip()
 
 def get_definitive_answer(expression):
@@ -132,7 +109,7 @@ def get_definitive_answer(expression):
     """
     st.info("Calculando a resposta definitiva...")
     prompt = f"Qual o resultado da seguinte expressão matemática: '{expression}'? Responda com o valor numérico ou a simplificação, de forma clara e concisa."
-    response = client.models.generate_content(model=model_text, contents=[prompt], config=chat_config_text)
+    response = client.models.generate_content(model=model_ia, contents=[prompt], config=chat_config)
     return response.text.strip()
 
 # --- Frontend Streamlit ---
